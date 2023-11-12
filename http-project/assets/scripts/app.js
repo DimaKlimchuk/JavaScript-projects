@@ -27,10 +27,8 @@ function sendHttpRequest (method, url, data ){
         // xhr.send(JSON.stringify(data));
         return fetch(url, {
             method: method,
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: data,
+           
         }).then(response => {
             if (response.status >= 200 && response.status < 300){
                 return response.json();
@@ -74,6 +72,11 @@ async function createPost(title, content){
         body: content,
         userId: userId
     };
+
+    const fd = new FormData();
+    fd.append('title', title);
+    fd.append('body', content);
+    fd.append('userId', userId);
 
     await sendHttpRequest('POST', 'https://jsonplaceholder.typicode.com/posts', post);
 }
